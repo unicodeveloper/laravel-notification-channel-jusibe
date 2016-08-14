@@ -1,14 +1,15 @@
 <?php
 
-namespace NotificationChannels\:channel_namespace;
+namespace NotificationChannels\Jusibe;
 
-use NotificationChannels\:channel_namespace\Exceptions\CouldNotSendNotification;
-use NotificationChannels\:channel_namespace\Events\MessageWasSent;
-use NotificationChannels\:channel_namespace\Events\SendingMessage;
 use Illuminate\Notifications\Notification;
+use NotificationChannels\Jusibe\Events\SendingMessage;
+use NotificationChannels\Jusibe\Events\MessageWasSent;
+use NotificationChannels\Jusibe\Exceptions\CouldNotSendNotification;
 
-class :service_nameChannel
+class JusibeChannel
 {
+
     public function __construct()
     {
         // Initialisation code here

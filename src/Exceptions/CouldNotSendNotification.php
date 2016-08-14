@@ -1,11 +1,15 @@
 <?php
 
-namespace NotificationChannels\:channel_namespace\Exceptions;
+namespace NotificationChannels\Jusibe\Exceptions;
 
-class CouldNotSendNotification extends \Exception
+use Exception;
+use DomainException;
+
+class CouldNotSendNotification extends Exception
 {
-    public static function serviceRespondedWithAnError($response)
+    public static function serviceRespondedWithAnError(DomainException $exception)
     {
-        return new static("Descriptive error message.");
+        return new static(
+            "Service responded with an error '{$exception->getCode()}: {$exception->getMessage()}'");
     }
 }

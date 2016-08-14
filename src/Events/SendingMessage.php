@@ -1,22 +1,27 @@
 <?php
 
-namespace NotificationChannels\:channel_namespace\Events;
+namespace NotificationChannels\Jusibe\Events;
 
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Notifications\Notification;
 
 class SendingMessage
 {
-
+    /**
+     * @var Notifiable
+     */
     protected $notifiable;
 
-    /** @var \Illuminate\Notifications\Notification */
+    /**
+     * @var Notification
+     */
     protected $notification;
 
     /**
-     * @param $notifiable
-     * @param \Illuminate\Notifications\Notification $notification
+     * @param Notifiable $notifiable
+     * @param Notification $notification
      */
-    public function __construct($notifiable, Notification $notification)
+    public function __construct(Notifiable $notifiable, Notification $notification)
     {
         $this->notifiable = $notifiable;
 
