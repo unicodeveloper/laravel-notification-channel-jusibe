@@ -60,3 +60,4 @@ class JusibeChannelTest extends TestCase
         $this->setExpectedException(CouldNotSendNotification::class);
         $this->channel->send(new Notifiable(), new TestNotification());
     }
+}
