@@ -1,26 +1,19 @@
-Use this repo as a skeleton for your new channel, once you're done please submit a Pull Request on [this repo](https://github.com/laravel-notification-channels/new-channels) with all the files.
+# Jusibe notifications channel for Laravel 5.3
 
-Here's the latest documentation on Laravel 5.3 Notifications System: 
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/unicodeveloper/laravel-notification-channel-jusibe.svg?style=flat-square)](https://packagist.org/packages/unicodeveloper/laravel-notification-channel-jusibe)
+[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
+[![Build Status](https://img.shields.io/travis/unicodeveloper/laravel-notification-channel-jusibe/master.svg?style=flat-square)](https://travis-ci.org/unicodeveloper/laravel-notification-channel-jusibe)
+[![Quality Score](https://img.shields.io/scrutinizer/g/unicodeveloper/laravel-notification-channel-jusibe.svg?style=flat-square)](https://scrutinizer-ci.com/g/unicodeveloper/laravel-notification-channel-jusibe)
+[![Total Downloads](https://img.shields.io/packagist/dt/unicodeveloper/laravel-notification-channel-jusibe.svg?style=flat-square)](https://packagist.org/packages/unicodeveloper/laravel-notification-channel-jusibe)
 
-https://laravel.com/docs/master/notifications
-
-# A Boilerplate repo for contributions
-
-This package makes it easy to send notifications using [:service_name](link to service) with Laravel 5.3.
-
-**Note:** Replace ```:channel_namespace``` ```:service_name``` ```:author_name``` ```:author_username``` ```:author_website``` ```:author_email``` ```:package_name``` ```:package_description``` with their correct values in [README.md](README.md), [CHANGELOG.md](CHANGELOG.md), [CONTRIBUTING.md](CONTRIBUTING.md), [LICENSE.md](LICENSE.md), [composer.json](composer.json) and other files, then delete this line.
-**Tip:** Use "Find in Path/Files" in your code editor to find these keywords within the package directory and replace all occurences with your specified term.
-
-This is where your description should go. Add a little code example so build can understand real quick how the package can be used. Try and limit it to a paragraph or two.
-
-
+This package makes it easy to send [Jusibe notifications](https://jusibe.com/docs/) with Laravel 5.3.
 
 ## Contents
 
 - [Installation](#installation)
-	- [Setting up the :service_name service](#setting-up-the-:service_name-service)
+    - [Setting up your Jusibe account](#setting-up-your-jusibe-account)
 - [Usage](#usage)
-	- [Available Message methods](#available-message-methods)
+    - [Available Message methods](#available-message-methods)
 - [Changelog](#changelog)
 - [Testing](#testing)
 - [Security](#security)
@@ -28,22 +21,78 @@ This is where your description should go. Add a little code example so build can
 - [Credits](#credits)
 - [License](#license)
 
-
 ## Installation
 
-Please also include the steps for any third-party service setup that's required for this package.
+You can install the package via composer:
 
-### Setting up the :service_name service
+``` bash
+composer require unicodeveloper/laravel-notification-channel-jusibe
+```
 
-Optionally include a few steps how users can set up the service.
+You must install the service provider:
+
+```php
+// config/app.php
+'providers' => [
+    ...
+    NotificationChannels\Jusibe\JusibeServiceProvider::class,
+],
+```
+
+### Setting up your Jusibe account
+
+Add your Jusibe Account Key, Acess Token, and From Number (optional) to your `config/services.php`:
+
+```php
+// config/services.php
+...
+'jusibe' => [
+    'key' => env('JUSIBE_PUBLIC_KEY'),
+    'token' => env('JUSIBE_ACCESS_TOKEN'),
+    'sms_from' => 'PROSPER'
+]
+...
+```
 
 ## Usage
 
-Some code examples, make it clear how to use the package
+Now you can use the channel in your `via()` method inside the notification:
 
-### Available methods
+``` php
+use NotificationChannels\Jusibe\JusibeChannel;
+use NotificationChannels\Jusibe\JusibeMessage;
+use Illuminate\Notifications\Notification;
 
-A list of all available options
+class ValentineDateApproved extends Notification
+{
+    public function via($notifiable)
+    {
+        return [JusibeChannel::class];
+    }
+
+    public function toJusibe($notifiable)
+    {
+        return (new JusibeMessage())
+            ->content("Your {$notifiable->service} account was approved!");
+    }
+}
+```
+
+In order to let your Notification know which phone are you sending to, add the `routeNotificationForJusibe` method to your Notifiable model e.g your User Model
+
+```php
+public function routeNotificationForJusibe()
+{
+    return $this->phone; // where `phone` is a field in your users table;
+}
+```
+
+### Available Message methods
+
+#### JusibeMessage
+
+- `from('')`: Accepts a phone to use as the notification sender.
+- `content('')`: Accepts a string value for the notification body.
 
 ## Changelog
 
@@ -57,7 +106,7 @@ $ composer test
 
 ## Security
 
-If you discover any security related issues, please email :author_email instead of using the issue tracker.
+If you discover any security related issues, please email prosperotemuyiwa@gmail.com instead of using the issue tracker.
 
 ## Contributing
 
@@ -65,8 +114,7 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ## Credits
 
-- [:author_name](https://github.com/:author_username)
-- [All Contributors](../../contributors)
+- [Prosper Otemuyiwa](https://github.com/unicodeveloper)
 
 ## License
 
