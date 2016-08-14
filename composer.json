@@ -1,6 +1,6 @@
 {
     "name": "unicodeveloper/laravel-notification-channel-jusibe",
-    "description": ":package_description",
+    "description": "Jusibe SMS Channel for Laravel 5.3",
     "homepage": "https://github.com/laravel-notification-channels/jusibe-ng",
     "license": "MIT",
     "authors": [
