@@ -21,7 +21,7 @@ class SendingMessage
      * @param Notifiable $notifiable
      * @param Notification $notification
      */
-    public function __construct(Notifiable $notifiable, Notification $notification)
+    public function __construct($notifiable, Notification $notification)
     {
         $this->notifiable = $notifiable;
 

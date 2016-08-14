@@ -2,6 +2,8 @@
 
 namespace NotificationChannels\Jusibe;
 
+use DomainException;
+use Unicodeveloper\Jusibe\Jusibe as JusibeClient;
 use Illuminate\Notifications\Notification;
 use NotificationChannels\Jusibe\Events\SendingMessage;
 use NotificationChannels\Jusibe\Events\MessageWasSent;
@@ -9,34 +11,66 @@ use NotificationChannels\Jusibe\Exceptions\CouldNotSendNotification;
 
 class JusibeChannel
 {
+    /**
+     * The Nexmo client instance.
+     *
+     * @var \Nexmo\Client
+     */
+    protected $jusibe;
 
-    public function __construct()
+    /**
+     * The phone number notifications should be sent from.
+     *
+     * @var string
+     */
+    protected $from;
+
+    /**
+     * Create a new Nexmo channel instance.
+     *
+     * @param  \Nexmo\Client  $nexmo
+     * @param  string  $from
+     * @return void
+     */
+    public function __construct(JusibeClient $jusibe)
     {
-        // Initialisation code here
+        $this->jusibe = $jusibe;
     }
 
     /**
      * Send the given notification.
      *
-     * @param mixed $notifiable
-     * @param \Illuminate\Notifications\Notification $notification
-     *
-     * @throws \NotificationChannels\:channel_namespace\Exceptions\CouldNotSendNotification
+     * @param  mixed  $notifiable
+     * @param  \Illuminate\Notifications\Notification  $notification
+     * @return void
      */
     public function send($notifiable, Notification $notification)
     {
-        $shouldSendMessage = event(new SendingMessage($notifiable, $notification), [], true) !== false;
-
-        if (! $shouldSendMessage) {
-            return;
+        if (! $to = $notifiable->routeNotificationFor('jusibe')) {
+            throw CouldNotSendNotification::missingTo();
         }
 
-        //$response = [a call to the api of your notification send]
+        $message = $notification->toJusibe($notifiable);
 
-//        if ($response->error) { // replace this by the code need to check for errors
-//            throw CouldNotSendNotification::serviceRespondedWithAnError($response);
-//        }
+        if (is_string($message)) {
+            $message = new JusibeMessage($message);
+        }
 
-        event(new MessageWasSent($notifiable, $notification));
+        if (! $from = $message->from ?: config('services.jusibe.sms_from')) {
+            throw CouldNotSendNotification::missingFrom();
+        }
+
+        try {
+            $response = $this->jusibe->sendSMS([
+                'to' => $to,
+                'from' => $from,
+                'message' => trim($message->content)
+            ])->getResponse();
+
+            return $response;
+        } catch(DomainException $e) {
+            throw CouldNotSendNotification::serviceRespondedWithAnError($exception);
+        }
     }
 }
+
