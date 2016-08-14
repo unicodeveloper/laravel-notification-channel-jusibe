@@ -3,11 +3,9 @@
 namespace NotificationChannels\Jusibe;
 
 use DomainException;
-use Unicodeveloper\Jusibe\Jusibe as JusibeClient;
 use Illuminate\Notifications\Notification;
-use NotificationChannels\Jusibe\Events\SendingMessage;
-use NotificationChannels\Jusibe\Events\MessageWasSent;
 use NotificationChannels\Jusibe\Exceptions\CouldNotSendNotification;
+use Unicodeveloper\Jusibe\Jusibe as JusibeClient;
 
 class JusibeChannel
 {
@@ -28,8 +26,7 @@ class JusibeChannel
     /**
      * Create a new Jusibe channel instance.
      *
-     * @param  \Jusibe\Jusibe  $jusibe
-     * @param  string  $from
+     * @param  JusibeClient  $jusibe
      * @return void
      */
     public function __construct(JusibeClient $jusibe)

@@ -2,8 +2,6 @@
 
 namespace NotificationChannels\Jusibe;
 
-use Illuminate\Support\Arr;
-
 class JusibeMessage
 {
     /**
@@ -23,7 +21,7 @@ class JusibeMessage
     /**
      * Create a new message instance.
      *
-     * @param  string  $message
+     * @param  string  $content
      * @return void
      */
     public function __construct($content = '')
@@ -47,7 +45,7 @@ class JusibeMessage
     /**
      * Set the phone number the message should be sent from.
      *
-     * @param  string  $number
+     * @param  string  $from
      * @return $this
      */
     public function from($from)
