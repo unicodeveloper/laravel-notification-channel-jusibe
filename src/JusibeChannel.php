@@ -12,9 +12,9 @@ use NotificationChannels\Jusibe\Exceptions\CouldNotSendNotification;
 class JusibeChannel
 {
     /**
-     * The Nexmo client instance.
+     * The Jusibe client instance.
      *
-     * @var \Nexmo\Client
+     * @var \Jusibe\Jusibe
      */
     protected $jusibe;
 
@@ -26,9 +26,9 @@ class JusibeChannel
     protected $from;
 
     /**
-     * Create a new Nexmo channel instance.
+     * Create a new Jusibe channel instance.
      *
-     * @param  \Nexmo\Client  $nexmo
+     * @param  \Jusibe\Jusibe  $jusibe
      * @param  string  $from
      * @return void
      */
@@ -42,7 +42,7 @@ class JusibeChannel
      *
      * @param  mixed  $notifiable
      * @param  \Illuminate\Notifications\Notification  $notification
-     * @return void
+     * @return string
      */
     public function send($notifiable, Notification $notification)
     {
