@@ -1,4 +1,4 @@
-# Jusibe notifications channel for Laravel 5.3 ]
+# Jusibe notifications channel for Laravel 5.3 [DEPRECATED]
 
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/unicodeveloper/laravel-notification-channel-jusibe.svg?style=flat-square)](https://packagist.org/packages/unicodeveloper/laravel-notification-channel-jusibe)
@@ -9,7 +9,9 @@
 
 This package makes it easy to send [Jusibe notifications](https://jusibe.com/docs/) with Laravel 5.3.
 
-## Notice: DON'T USE THIS, USE THIS => [LARAVEL NOTIFICATION CHANNELS - JUSIBE](https://github.com/laravel-notification-channels/jusibe)
+## Notice: DON'T USE THIS, IT HAS BEEN DEPRECATED. THE NEW & WORKING VERSION EXISTS HERE => [LARAVEL NOTIFICATION CHANNELS - JUSIBE](https://github.com/laravel-notification-channels/jusibe)
+
+
 
 ## Contents
 
